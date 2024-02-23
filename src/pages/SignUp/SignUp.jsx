@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import logImg from "../../assets/images/login/login.svg";
 
-const Login = () => {
-  const handleLogin = (event) => {
+const SignUp = () => {
+  const handleSignUp = (event) => {
     event.preventDefault();
   };
 
@@ -13,9 +13,9 @@ const Login = () => {
           <img src={logImg} alt="" />
         </div>
         <div className="card  w-2/3 md:w-full md:max-w-sm shadow-2xl bg-base-100">
-          <h1 className="text-3xl px-6 pt-6 font-bold">Login Now</h1>
+          <h1 className="text-3xl px-6 pt-6 font-bold">Sign Up Now</h1>
 
-          <form onSubmit={handleLogin} className="card-body">
+          <form onSubmit={handleSignUp} className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -58,16 +58,16 @@ const Login = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <input className="btn btn-primary" type="submit" value="Login" />
+              <input className="btn btn-primary" type="submit" value="Sign up" />
             </div>
             <div>
               <p className="">
-                Do not have an account ?{" "}
+                Already have an account ?{" "}
                 <Link
-                  to={"/signup"}
+                  to={"/login"}
                   className="text-sm underline cursor-pointer text-red-600 font-semibold"
                 >
-                  Sign up here...
+                  Login here...
                 </Link>
               </p>
             </div>
@@ -78,4 +78,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
