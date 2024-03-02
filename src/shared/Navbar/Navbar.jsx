@@ -20,15 +20,18 @@ const Navbar = () => {
       <li>
         <NavLink to={"/about"}>About</NavLink>
       </li>
-      <li>
-        <NavLink to={"/service"}>Service</NavLink>
-      </li>
+      
       {user?.email ? (
-        <li>
-          <button onClick={handleLogOut} className="">
-            Log out
-          </button>
-        </li>
+        <>
+          <li>
+            <NavLink to={"/bookings"}>My bookings</NavLink>
+          </li>
+          <li>
+            <button onClick={handleLogOut} className="">
+              Log out
+            </button>
+          </li>
+        </>
       ) : (
         <li>
           <NavLink to={"/login"}>Login</NavLink>
