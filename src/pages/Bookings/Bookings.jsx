@@ -28,13 +28,39 @@ const Bookings = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          alert('Successfully deleted!!')
+          alert("Successfully deleted!!");
           if (data.deletedCount > 0) {
-            const remainingBookings = bookings.filter((booking) => booking._id !== id);
+            const remainingBookings = bookings.filter(
+              (booking) => booking._id !== id
+            );
             setBookings(remainingBookings);
           }
         });
     }
+  };
+
+  const handleUpdate = (id) => {
+    fetch(`http://localhost:5000/bookings/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ status: "confirm" }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.modifiedCount > 0) {
+          let updated = bookings.find((booking) => booking._id === id);
+          updated.status = "confirm";
+          const remainingBookings = bookings.filter(
+            (booking) => booking._id !== id
+          );
+
+          const newBookings = [updated, ...remainingBookings];
+          setBookings(newBookings);
+        }
+      });
   };
 
   return (
@@ -52,7 +78,7 @@ const Bookings = () => {
             <th>Services</th>
             <th>Date</th>
             <th>Price</th>
-            <th>Details</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -60,8 +86,9 @@ const Bookings = () => {
           {bookings.map((bookingItem) => (
             <BookingsRow
               key={bookingItem._id}
-              bookingItem={bookingItem}
+              bookingItems={bookingItem}
               handleDeleteBooking={handleDeleteBooking}
+              handleUpdate={handleUpdate}
             ></BookingsRow>
           ))}
         </tbody>
