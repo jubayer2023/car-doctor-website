@@ -18,6 +18,25 @@ const Bookings = () => {
       });
   }, [url]);
 
+  const handleDeleteBooking = (id) => {
+    let confirmation = confirm("Are you sure you want to delete ?");
+
+    if (confirmation) {
+      fetch(`http://localhost:5000/bookings/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          alert('Successfully deleted!!')
+          if (data.deletedCount > 0) {
+            const remainingBookings = bookings.filter((booking) => booking._id !== id);
+            setBookings(remainingBookings);
+          }
+        });
+    }
+  };
+
   return (
     <div className="overflow-x-auto py-6 md:py-12 bg-neutral-100">
       <table className="table">
@@ -42,6 +61,7 @@ const Bookings = () => {
             <BookingsRow
               key={bookingItem._id}
               bookingItem={bookingItem}
+              handleDeleteBooking={handleDeleteBooking}
             ></BookingsRow>
           ))}
         </tbody>
