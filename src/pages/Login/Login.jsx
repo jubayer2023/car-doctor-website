@@ -2,9 +2,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import logImg from "../../assets/images/login/login.svg";
 import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
+import axios from "axios";
 
 const Login = () => {
-  const { signInUser } = useContext(AuthContext);
+  const { signInUser, user } = useContext(AuthContext);
 
   // redirect to the page where you wanted to go before!!!
   const location = useLocation();
@@ -16,13 +17,21 @@ const Login = () => {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    // console.log(email, password);
 
     signInUser(email, password)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
-        navigate(location?.state ? location.state : "/");
+        const loggedInUser = result.user;
+        console.log(loggedInUser);
+
+        const user = { email };
+
+        // json webtoken store here
+        axios.post(`http://localhost:5000/jwt`, user).then((res) => {
+          console.log(res.data);
+        });
+
+        // navigate(location?.state ? location.state : "/");
       })
       .catch((error) => {
         console.log(error.message);
@@ -59,6 +68,7 @@ const Login = () => {
                 type="email"
                 placeholder="email"
                 name="email"
+                defaultValue={user?.email}
                 className="input input-bordered"
                 required
               />
