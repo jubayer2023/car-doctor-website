@@ -5,7 +5,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 import axios from "axios";
 
 const Login = () => {
-  const { signInUser, user } = useContext(AuthContext);
+  const { signInUser } = useContext(AuthContext);
 
   // redirect to the page where you wanted to go before!!!
   const location = useLocation();
@@ -27,11 +27,14 @@ const Login = () => {
         const user = { email };
 
         // json webtoken store here
-        axios.post(`http://localhost:5000/jwt`, user).then((res) => {
-          console.log(res.data);
-        });
-
-        // navigate(location?.state ? location.state : "/");
+        axios
+          .post(`http://localhost:5000/jwt`, user, { withCredentials: true })
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.success) {
+              navigate(location?.state ? location.state : "/");
+            }
+          });
       })
       .catch((error) => {
         console.log(error.message);
@@ -68,7 +71,7 @@ const Login = () => {
                 type="email"
                 placeholder="email"
                 name="email"
-                defaultValue={user?.email}
+                defaultValue={"robi@gmail.com"}
                 className="input input-bordered"
                 required
               />
@@ -81,6 +84,7 @@ const Login = () => {
                 type="password"
                 placeholder="password"
                 name="password"
+                defaultValue={"123456"}
                 className="input input-bordered"
                 required
               />
