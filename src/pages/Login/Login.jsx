@@ -32,6 +32,7 @@ const Login = () => {
           .then((res) => {
             console.log(res.data);
             if (res.data.success) {
+              console.log(res.data);
               navigate(location?.state ? location.state : "/");
             }
           });
